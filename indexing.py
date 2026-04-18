@@ -25,7 +25,9 @@ if not os.path.exists(INDEX_DIR):
 else:
     ix = index.open_dir(INDEX_DIR)
 
-writer = ix.writer(limitmb=512, procs=4, multisegment=True)
+# Modified for silly, sad Windows computer :(
+writer = ix.writer(limitmb=512)
+#writer = ix.writer(limitmb=512, procs=4, multisegment=True)
 
 # ---------------------------------------------------------
 # 3. Function to parse Wikipedia pages
@@ -76,9 +78,12 @@ def parse_wiki_file(filepath):
 # ---------------------------------------------------------
 # 4. Index all Wikipedia files
 # ---------------------------------------------------------
-WIKI_DIR = "wikipedia_files"   # directory containing the 80 files
+WIKI_DIR = "wiki-subset-20140602"   # directory containing the 80 files
 
-files = sorted(os.listdir(WIKI_DIR))
+files = sorted(
+    f for f in os.listdir(WIKI_DIR)
+    if not f.startswith("._") and not f.startswith(".")
+)
 
 for filename in files:
     filepath = os.path.join(WIKI_DIR, filename)
