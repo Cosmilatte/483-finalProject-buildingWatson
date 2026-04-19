@@ -2,16 +2,17 @@ import os
 import re
 from whoosh import index
 from whoosh.fields import Schema, TEXT, ID
-from whoosh.analysis import StemmingAnalyzer
+from whoosh.analysis import StemmingAnalyzer, NgramFilter
 
 # ---------------------------------------------------------
 # 1. Define the Whoosh schema
 # ---------------------------------------------------------
 # title: stored and indexed
 # content: full text of the Wikipedia page
+
 schema = Schema(
     title=ID(stored=True, unique=True),
-    content=TEXT(stored=False, analyzer=StemmingAnalyzer())
+    content=TEXT(stored=False, analyzer=StemmingAnalyzer() | NgramFilter(minsize=2, maxsize=2))
 )
 
 # ---------------------------------------------------------
