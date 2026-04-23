@@ -5,10 +5,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.queryparser.classic.MultiFieldQueryParser;
-import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.BooleanClause;
-import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.BoostQuery;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -26,7 +22,6 @@ public class Searcher {
 
     private final IndexSearcher searcher;
     private final MultiFieldQueryParser parser;
-    Analyzer analyzer = new StandardAnalyzer();
 
     public Searcher(String indexDir) throws Exception {
 
@@ -35,25 +30,24 @@ public class Searcher {
         searcher = new IndexSearcher(reader);
 
         // Use unigram analyzer for parsing queries
-        //Analyzer unigramAnalyzer = new StandardAnalyzer();
-        parser = new MultiFieldQueryParser(
-                new String[]{"content_unigram", "content_bigram"},
-                analyzer);
+        Analyzer unigramAnalyzer = new StandardAnalyzer();
 
-        /*
+        // Query both fields
+        //parser = new MultiFieldQueryParser(
+        //        new String[]{"content_unigram", "content_bigram"},
+        //        unigramAnalyzer
+        //);
+
         // Boost bigram matches
-        String[] fields = { "content_unigram", "content_bigram"};//, "title_text" };
-        
+        String[] fields = { "content_unigram", "content_bigram" };
         Map<String,Float> boosts = new HashMap<>();
         boosts.put("content_unigram", 1.0f);
         boosts.put("content_bigram", 1.4f);
-        //boosts.put("title_text", 2.0f);
 
-        parser = new MultiFieldQueryParser(fields, unigramAnalyzer, boosts);*/
+        parser = new MultiFieldQueryParser(fields, unigramAnalyzer, boosts);
 
     }
 
-    /*
     public Document searchTopDoc(String clue) throws Exception {
         Query query = parser.parse(clue);
         TopDocs results = searcher.search(query, 1);
@@ -64,38 +58,9 @@ public class Searcher {
 
         ScoreDoc sd = results.scoreDocs[0];
         //return searcher.storedFields().document(sd.doc);
-        return searcher.storedFields().document(sd.doc);
-    }*/
-    
-    public Document searchTopDoc(String clue) throws Exception {
-
-        // Unigram query
-        QueryParser uniParser = new QueryParser("content_unigram", analyzer);
-        Query unigramQuery = uniParser.parse(clue);
-
-        // Bigram query
-        QueryParser biParser = new QueryParser("content_bigram", analyzer);
-        Query bigramQuery = new BoostQuery(biParser.parse(clue), 1.3f);
-
-        // Title query (VERY small boost)
-        QueryParser titleParser = new QueryParser("title_text", analyzer);
-        Query titleQuery = new BoostQuery(titleParser.parse(clue), 0.3f);
-
-        // Combine
-        BooleanQuery.Builder builder = new BooleanQuery.Builder();
-        builder.add(unigramQuery, BooleanClause.Occur.SHOULD);
-        builder.add(bigramQuery, BooleanClause.Occur.SHOULD);
-        builder.add(titleQuery, BooleanClause.Occur.SHOULD);
-
-        Query finalQuery = builder.build();
-
-        TopDocs results = searcher.search(finalQuery, 1);
-
-        if (results.scoreDocs.length == 0) {
-            return null;
-        }
-
-        return searcher.storedFields().document(results.scoreDocs[0].doc);
+        Document d = searcher.storedFields().document(sd.doc);
+        
+        return d;
     }
 
     public static void main(String[] args) throws Exception {
