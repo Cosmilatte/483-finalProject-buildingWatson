@@ -1,10 +1,10 @@
 PROJECT NOTES:
 The questions were extracted from j-archive.com, from shows that took place between 2013-01-01 and 2013-01-07.
 
-THIS WAS DESIGNED AND TESTED IN A WINDOWS, VSCODE ENVIRONMENT. We ran into problems that were Windows-specific, and modified accordingly. 
+THIS WAS DESIGNED AND TESTED IN A WINDOWS, ECLIPSE IDE ENVIRONMENT. We ran into problems that were Windows-specific, and modified accordingly. 
 
 CORE IMPLEMENTATION -- indexing and retrieval
-For this project, we decided on using Whoosh. Whoosh handles basic preperation for indexing     (stemming, removal of stopwords, lowercasing, tokenization)
+For this project, we decided on using Lucene. Lucene handles basic preperation for indexing (stemming, removal of stopwords, lowercasing, tokenization)
 
 CODING WITH LLMS:
 For this project, we utilized Microsoft's Copilot. We primarily vibe-coded this assignment, prompting for one section at a time, and then testing and debugging before moving to the next portion of code. We also turned to Copilot to help with identifying errors that we ran into.
