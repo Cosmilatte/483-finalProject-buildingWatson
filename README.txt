@@ -1,24 +1,20 @@
-PROJECT NOTES:
+This README contains info on how to compile and the aspects of the assignment we were required to work through.
+For our written analysis of this assignment, please read "CSC483 Final Project.pdf"
+
 The questions were extracted from j-archive.com, from shows that took place between 2013-01-01 and 2013-01-07.
 
-THIS WAS DESIGNED AND TESTED IN A WINDOWS, ECLIPSE IDE ENVIRONMENT. We ran into problems that were Windows-specific, and modified accordingly. 
+THIS WAS DESIGNED AND TESTED IN A WINDOWS, ECLIPSE IDE ENVIRONMENT. We ran into problems that were Windows-specific, 
+and modified accordingly. 
 
-CORE IMPLEMENTATION -- indexing and retrieval
-For this project, we decided on using Lucene. Lucene handles basic preperation for indexing (stemming, removal of stopwords, lowercasing, tokenization)
-
-CODING WITH LLMS:
-For this project, we utilized Microsoft's Copilot. We primarily vibe-coded this assignment, prompting for one section at a time, and then testing and debugging before moving to the next portion of code. We also turned to Copilot to help with identifying errors that we ran into.
-
+The folder titled "whoosh" contains our initial attempt of this assignment through implementing whoosh with python.
+It is not required for running this assignment (all is within "babyWatson.zip"), but we figured keeping it in this
+git repository would help to show the work we put into exploring the assignment prompt.
 
 ------------------------------------------------------
 
+HOW TO COMPILE
+Download babyWatson.zip, unzip and import into Eclipse. Access all wiki documents from the wiki-data.txt by 
+unpackaging the tar and moving the unpackaged wiki subset folder into the same directory. Run first Indexer.java 
+(which requires and references BigramAnalyzer.java) until it prints a confirmation message, then upon the 
+construction of the index, run Searcher.java. View results in the text window.
 
-MEASURING PERFORMANCE:
-
-
-Measure the performance of your Jeopardy system, using one of the metrics discussed in class, e.g., precision at 1 (P@1), normalized discounted cumulative gain (NDCG), or mean reciprocal rank (MRR). Note: not all the above metrics are relevant here! Justify your choice, and then report performance using the metric of your choice.
-
-ERROR ANALYSIS:
-
-
- Perform an error analysis of your best system. How many questions were answered correctly/incorrectly? Why do you think the correct questions can be answered by such a simple system? What problems do you observe for the questions answered incorrectly? Try to group the errors into a few classes and discuss them.
